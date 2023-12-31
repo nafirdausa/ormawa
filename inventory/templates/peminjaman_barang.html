@@ -1,0 +1,79 @@
+
+
+
+{% extends 'base.html' %}
+{% load static%}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Peminjaman Barang</title>
+    <style>
+        form select{
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+{% block content %}
+<div id="content-wrapper" class="d-flex flex-column">
+    <section class="h-100 h-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-8 col-xl-6">
+                    <div class="card rounded-3">
+                        <div class="card-header text-center text-white bg-primary">
+                            <span><h1 class="mb-4 pb-2 mt-3 pb-md-0 mb-md-5 px-md-2">FORM PEMINJAMAN</h1></span>
+                        </div>
+                        <div class="card-body p-4 p-md-5">
+                            {% if pesan %}
+                                <p>{{ pesan }}</p>
+                            {% endif %}
+                            <form method="post" action="{% url 'inventory:peminjaman' %}" class="px-md-2">
+                                {% csrf_token %}
+                                <div class="form-outline mb-4">
+                                    <label for="ormawa">Ormawa</label><br>
+                                    <select class="select">
+                                        {% for ormawa in ormawa_listed %}
+                                            <option value="{{ ormawa.id_ormawa }}">{{ ormawa.nama_ormawa }}</option>
+                                        {% endfor %}
+                                    </select> <br>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="barang">Nama Barang</label><br>
+                                    <select class="select">
+                                        {% for barang in barang_listed %}
+                                            <option value="{{ barang.id_barang }}">{{ barang.nama_barang }}</option>
+                                        {% endfor %}
+                                    </select> <br>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <div class="form-outline datepicker">
+                                        <label for="jumlah" class="form-label">Jumlah</label>
+                                        <input type="number" class="form-control" id="jumlah" />
+                                    </div>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <div class="form-outline datepicker">
+                                        <label class="form-label" for="form3Example1q">Tanggal Pinjam</label>
+                                        <input type="date" id="pinjam" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <div class="form-outline datepicker">
+                                        <label for="kembali" class="form-label">Tanggal Kembali</label>
+                                        <input type="date" class="form-control" id="kembali" />
+                                    </div>
+                                </div>
+                                    <button type="submit" class="btn btn-primary btn-lg mb-1">Pinjam</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+</html>
+
+
+

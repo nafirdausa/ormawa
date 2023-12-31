@@ -1,0 +1,71 @@
+{% extends "base_login.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    body {
+        background-image: url("{% static 'img/background_lengkap-01.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .navbar {
+        background-color: transparent;
+    }
+
+    /* .card {
+        margin-top: 100px;
+    } */
+    .login-container {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        height: 100vh;
+        width: 40%;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding-left: 28px;
+    }
+
+    .login-form {
+        max-width: 900px;
+        padding: 50px;
+        color: white;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-form">
+        <div class="text-center">
+            <i class="bi bi-person-circle" style="font-size: 64px;"></i>
+        </div>
+        <h3 class="text-center">User Login</h3>
+        <form class="mt-4" action="" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group" style="width: 450px; height: 50px;">
+                    <span class="input-group-text">
+                        <i class="bi bi-person"></i>
+                    </span>
+                    {{ form.username }}
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group" style="width: 450px; height: 50px;">
+                    <span class="input-group-text">
+                        <i class="bi bi-lock"></i>
+                    </span>
+                    {{ form.password }}
+                </div>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

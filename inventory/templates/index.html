@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+</head>
+
+{% block content %}
+<!-- Content Wrapper -->
+<div class="container" py-4>
+    <header class="pb-3 mb-4 border-bottom"></header>
+    <div class="p-5 mb-4 bg-white border  rounded-3">
+        <div class="container-fluid py-5">
+            <div id="content-wrapper" class="bg-white d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    <!-- Begin Page Content -->
+                    <div class="px-4">
+                        <h1>DATA BARANG</h1>
+                    </div> <br>
+                    <div class="container-fluid">
+                        <!-- Area Chart -->
+                        <!-- Table Barang -->
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <th scope="row">Id barang</th>
+                                <th scope="row">Nama barang</th>
+                                <th scope="row">Jumlah stok</td>
+                            </thead>
+                            <tbody>
+                                {% for i in Barang %}
+                                <tr>
+                                    <td>{{ i.id_barang }}</td>
+                                    <td>{{ i.nama_barang }}</td>
+                                    <td>{{ i.jml_stok }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-5 mb-4 bg-white border  rounded-3">
+        <div class="container-fluid py-5">
+            <div id="content-wrapper" class="bg-white d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    <!-- Begin Page Content -->
+                    <div class="px-4">
+                        <h1>DATA PEMINJAMAN</h1>
+                    </div> <br>
+                    <div class="container-fluid">
+                        <!-- Area Chart -->
+                        <!-- Table Barang -->
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ormawa</th>
+                                    <th scope="col">Barang</th>
+                                    <th scope="col">Jumlah</th>
+                                    <th scope="col">Tanggal Pinjam</th>
+                                    <th scope="col">Tanggal Kembali</th>
+                                    <th scope="col">Kembalikan</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for request in RequestPeminjaman %}
+                                <tr>
+                                    <td>{{ request.ormawa.id_ormawa }}</td>
+                                    <td>{{ request.barang.id_barang }}</td>
+                                    <td>{{ request.jumlah }}</td>
+                                    <td>{{ request.tgl_pinjam }}</td>
+                                    <td>{{ request.tgl_kembali }}</td>
+                                    <td>
+                                        <form action="{% url 'kembali_barang' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="request_id" value="{{ request.pk }}">
+                                            <button type="submit" class="btn btn-primary">Kembali</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        {% for transaksi in Transaksi %}
+                                          {% if transaksi.id_request.pk == request.pk %}
+                                            {{ transaksi.status }}
+                                          {% endif %}
+                                        {% endfor %}
+                                      </td>
+                                      
+                                    <td>
+                                        <a href="{% url 'update_request' request.pk %}" class="btn btn-info">Update</a>
+                                        <!-- form = menentukan URL target dengan metode POST -->
+                                        <form method="POST" action="{% url 'delete_request' request.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                          
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+</html>
